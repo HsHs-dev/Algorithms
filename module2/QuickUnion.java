@@ -1,5 +1,5 @@
 /*
-algorithm: quick-union (quick find but slow union)
+algorithm: quick-union
 initialize: O(N)
 union: O(N)
 find(connected()): O(N)
