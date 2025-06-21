@@ -2,10 +2,11 @@
 algorithm: quick-find (quick find but slow union)
 initialize: O(N)
 union: O(N)
-find: O(1)
+find(connected()): O(1)
 Quick-find defect: union() is very expensive
 Ex. Takes N^2 array accesses to process sequence of N union commands on N objects
 */
+
 public class QuickFind implements UF {
 
     private final int[] id;
