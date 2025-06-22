@@ -1,18 +1,18 @@
-import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
 
-    private final int TRIALS;
-    private final double[] FRACTIONS;
+    private final int trials;
+    private final double[] fractions;
+    private final double confidence95 = 1.96;
 
     // perform independent trials on an n-by-n grid
-    public PercolationStats(int n, int trials) throws IllegalAccessException {
+    public PercolationStats(int n, int trials) {
 
-        TRIALS = trials;
-        FRACTIONS = new double[trials];
+        this.trials = trials;
+        fractions = new double[trials];
 
         for (int i = 0; i < trials; i++) {
             Percolation per = new Percolation(n);
@@ -24,32 +24,32 @@ public class PercolationStats {
 
             int opened = per.numberOfOpenSites();
             double fraction = (double) opened / (n * n);
-            FRACTIONS[i] = fraction;
+            fractions[i] = fraction;
         }
     }
 
     // sample mean of percolation threshold
     public double mean() {
-        return StdStats.mean(FRACTIONS);
+        return StdStats.mean(fractions);
     }
 
     // sample standard deviation of percolation threshold
     public double stddev() {
-        return StdStats.stddev(FRACTIONS);
+        return StdStats.stddev(fractions);
     }
 
     // low endpoint of 95% confidence interval
     public double confidenceLo() {
-        return mean() - ((1.96 * stddev()) / Math.sqrt(TRIALS));
+        return mean() - ((confidence95 * stddev()) / Math.sqrt(trials));
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        return mean() + ((1.96 * stddev()) / Math.sqrt(TRIALS));
+        return mean() + ((confidence95 * stddev()) / Math.sqrt(trials));
     }
 
     // test client (see below)
-    public static void main(String[] args) throws IllegalAccessException {
+    public static void main(String[] args) {
         int n = Integer.parseInt(args[0]);
         int t = Integer.parseInt(args[1]);
 

@@ -6,35 +6,36 @@ public class Percolation {
     private final int size;
     private final int wquLength;
     private int openSites;
-    private final WeightedQuickUnionUF WQU;
-    private final int VIRTUAL_TOP;
-    private final int VIRTUAL_BOTTOM;
+    private final WeightedQuickUnionUF wqu;
+    private final int virtualTop;
+    private final int virtualBottom;
 
     // creates n-by-n grid, with all sites initially blocked
-    public Percolation(int n) throws IllegalAccessException {
-        if (n <= 0) throw new IllegalAccessException("grid dimensions should be more than 0");
+    public Percolation(int n) {
+        if (n <= 0)
+            throw new IllegalArgumentException("grid dimensions should be more than 1");
 
         grid = new boolean[n][n];
         size = n;
         openSites = 0;
         wquLength = size * size + 2;
-        WQU = new WeightedQuickUnionUF(wquLength);
+        wqu = new WeightedQuickUnionUF(wquLength);
 
         // initialize top and bottom virtual sites
-        VIRTUAL_TOP = 0;
-        VIRTUAL_BOTTOM = wquLength - 1;
+        virtualTop = 0;
+        virtualBottom = wquLength - 1;
         for (int i = 0; i < n; i++) {
-            WQU.union(VIRTUAL_TOP, i);
+            wqu.union(virtualTop, i);
 
             int bottomIndex = (size - 1) * size + i;
-            WQU.union(VIRTUAL_BOTTOM, bottomIndex);
+            wqu.union(virtualBottom, bottomIndex);
         }
     }
 
     // opens the site (row, col) if it is not open already
-    public void open(int row, int col) throws IllegalAccessException {
+    public void open(int row, int col) {
         if (validate(row, col))
-            throw new IllegalAccessException("provided dimensions are out of bounds (between 1 and " + size + ")");
+            throw new IllegalArgumentException("provided dimensions are out of bounds (between 1 and " + size + ")");
         row = row - 1;
         col = col - 1;
         if (!grid[row][col]) {
@@ -45,22 +46,22 @@ public class Percolation {
     }
 
     // is the site (row, col) open?
-    public boolean isOpen(int row, int col) throws IllegalAccessException {
+    public boolean isOpen(int row, int col) {
         if (validate(row, col))
-            throw new IllegalAccessException("Out of bounds site");
+            throw new IllegalArgumentException("Out of bounds site");
         row = row - 1;
         col = col - 1;
         return grid[row][col];
     }
 
     /** is the site (row, col) full? */
-    public boolean isFull(int row, int col) throws IllegalAccessException {
+    public boolean isFull(int row, int col) {
         if (validate(row, col))
-            throw new IllegalAccessException("Out of bounds site");
+            throw new IllegalArgumentException("Out of bounds site");
         row = row - 1;
         col = col - 1;
         int index = row * size + col;
-        return WQU.connected(0, index);
+        return wqu.find(0) == wqu.find(index);
     }
 
     /** returns the number of open sites */
@@ -70,7 +71,7 @@ public class Percolation {
 
     /** does the system percolate? */
     public boolean percolates() {
-        return WQU.connected(VIRTUAL_TOP, VIRTUAL_BOTTOM);
+        return wqu.find(virtualTop) == wqu.find(virtualBottom);
     }
 
     /** an enum that specifies the adjacent sites */
@@ -101,7 +102,7 @@ public class Percolation {
             if (grid[newRow][newCol]) {
                 int index = row * size + col;
                 int newIndex = newRow * size + newCol;
-                WQU.union(index, newIndex);
+                wqu.union(index, newIndex);
             }
 
         }
