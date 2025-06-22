@@ -11,13 +11,15 @@ public class WeightedQuickUnion implements UF {
 
     public WeightedQuickUnion(int n) {
         id = new int[n];
-        for (int i = 0; i < n; i++) {
-            id[i] = i;
-        }
         sizes = new int[n];
         for (int i = 0; i < n; i++) {
+            id[i] = i;
             sizes[i] = 1;
         }
+//        sizes = new int[n];
+//        for (int i = 0; i < n; i++) {
+//            sizes[i] = 1;
+//        }
     }
 
     @Override
