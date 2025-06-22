@@ -1,3 +1,6 @@
+/*
+* The Percolation works fine but it suffers form Backwash
+*/
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
