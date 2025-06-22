@@ -24,25 +24,27 @@ public class Percolation {
         // initialize top and bottom virtual sites
         virtualTop = 0;
         virtualBottom = wquLength - 1;
-        for (int i = 0; i < n; i++) {
-            wqu.union(virtualTop, i);
-
-            int bottomIndex = (size - 1) * size + i;
-            wqu.union(virtualBottom, bottomIndex);
-        }
     }
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
         if (validate(row, col))
             throw new IllegalArgumentException("provided dimensions are out of bounds (between 1 and " + size + ")");
+
         row = row - 1;
         col = col - 1;
         if (!grid[row][col]) {
             grid[row][col] = true;
             openSites++;
             connect(row, col);
+
+            int index = row * size + col;
+            if (row == 0)
+                wqu.union(virtualTop, index);
+            if (row == size - 1)
+                wqu.union(virtualBottom, index);
         }
+
     }
 
     // is the site (row, col) open?
@@ -61,7 +63,7 @@ public class Percolation {
         row = row - 1;
         col = col - 1;
         int index = row * size + col;
-        return wqu.find(0) == wqu.find(index);
+        return grid[row][col] && wqu.find(virtualTop) == wqu.find(index);
     }
 
     /** returns the number of open sites */
