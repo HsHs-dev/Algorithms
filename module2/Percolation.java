@@ -66,6 +66,7 @@ public class Percolation {
         row = row - 1;
         col = col - 1;
         int index = row * size + col;
+
         return grid[row][col] && wqu.find(virtualTop) == wqu.find(index);
     }
 
