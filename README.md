@@ -1,4 +1,4 @@
-# Algs Workspace
+# Algorithms, Part I
 
 This repository contains assignment solutions for Coursera *[Algorithms part I](https://www.coursera.org/learn/algorithms-part1?)* course
 
