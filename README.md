@@ -11,5 +11,5 @@ This course is considered one of top algorithms courses on *Coursera*. and Prof.
 ## Assignments
 
 - [x] Hello, World
-- [x] Percolation
+- [x] [Percolation](https://coursera.cs.princeton.edu/algs4/assignments/percolation/specification.php)
 - [ ] Deques and Randomized Queues
